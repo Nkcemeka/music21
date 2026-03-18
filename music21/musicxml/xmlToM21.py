@@ -3467,6 +3467,14 @@ class MeasureParser(SoundTagMixin, XMLParserBase):
 
         self.setEditorial(mxNote, n)
 
+        # Music21 does not capture the note ids which is useful
+        # if you have corresponding match files...
+        xml_note_id = mxNote.get('id')
+        if xml_note_id:
+            if not hasattr(n.editorial, 'misc') or n.editorial.misc is None:
+                n.editorial.misc = {}
+            n.editorial.misc['musicxml_note_id'] = xml_note_id
+
         return n
         # TODO: attr: font
         # TODO: attr: printout
